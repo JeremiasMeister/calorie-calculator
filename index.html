@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macro Nutrition Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form">
+            <label for="weight">Gewicht</label>
+            <input type="number" id="weight" value="105">
+            <label for="pal">Pal (1.3)</label>
+            <input type="number" id="pal" value="1.3">
+            <label for="deficit">Kalorie Defizit (500)</label>
+            <input type="number" id="deficit" value="500">
+            <label for="restTurnover">Ruheumsatz</label>
+            <input type="number" id="restTurnover" value="2116">
+            <input type="button" value="Calculate" onclick="calculate()">
+        </div>
+        <div class="output">
+            <div id="calorieTotalOutput"></div>
+            <div id="proteinCalOutput"></div>
+            <div id="proteinGramOutput"></div>
+            <div id="fatCalOutput"></div>
+            <div id="fatGramOutput"></div>
+            <div id="carbsCalOutput"></div>
+            <div id="carbsGramOutput"></div>
+        </div>
+    </div>
+    <script>
+        function calculate() {
+            var weight = parseFloat(document.getElementById('weight').value);
+            var pal = parseFloat(document.getElementById('pal').value);
+            var deficit = parseFloat(document.getElementById('deficit').value);
+            var restTurnover = parseFloat(document.getElementById('restTurnover').value);
+
+            var calorieTotal = (restTurnover * pal - deficit).toFixed(2);
+            var protein = (weight * 1.5 * 4.3).toFixed(2);
+            var fat = (weight * 0.8 * 9.1).toFixed(2);
+            var carbs = (calorieTotal - protein - fat).toFixed(2);
+
+            var proteinGrams = (protein / 4.3).toFixed(2);
+            var fatGrams = (fat / 9.1).toFixed(2);
+            var carbsGrams = (carbs / 4.3).toFixed(2);
+
+            document.getElementById('calorieTotalOutput').innerHTML = 
+                'Dein Kalorien-Umsatz ist: <strong>' + calorieTotal + '</strong> (Ruheumsatz * Pal - Defizit)';
+            document.getElementById('proteinCalOutput').innerHTML = 
+                'Deine Eiweisse in Kalorien: <strong>' + protein + '</strong> = Gewicht x 1.5 (Verbrauch per kg) x 4.3 (Kalorien per kg)';
+            document.getElementById('proteinGramOutput').innerHTML = 
+                'Deine Eiweisse in Gram: <strong>' + proteinGrams + '</strong> = Gewicht x 1.5 (Verbrauch per kg)';
+            document.getElementById('fatCalOutput').innerHTML = 
+                'Deine Fette in Kalorien: <strong>' + fat + '</strong> = Gewicht x 0.8 (Verbrauch per kg) x 9.1 (Kalorien per kg)';
+            document.getElementById('fatGramOutput').innerHTML = 
+                'Deine Fette in Gram: <strong>' + fatGrams + '</strong> = Gewicht x 0.8 (Verbrauch per kg)';
+            document.getElementById('carbsCalOutput').innerHTML = 
+                'Deine Carbs in Kalorien: <strong>' + carbs +  '</strong> = (Gewicht - Proteine - Fette) x 4.3 (Kalorien per kg)';
+            document.getElementById('carbsGramOutput').innerHTML = 
+                'Deine Carbs in Gram: <strong>' + carbsGrams + '</strong> = Carb Kalorien / 4.3 (Kalorien per kg)';
+    }
+    </script>
+</body>
+</html>
