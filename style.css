@@ -118,6 +118,14 @@ input[type="button"]:hover {
     cursor: pointer;
 }
 
+.info-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #007bff;
+}
+
 strong {
     font-weight: bold;
     color: #007bff;

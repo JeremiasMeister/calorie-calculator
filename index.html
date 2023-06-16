@@ -7,13 +7,13 @@
      <div class="container">
         <div class="form">
             <button id="settings" class="settings-button">⚙️</button>
-            <label for="weight">Gewicht</label>
+            <label for="weight">Gewicht <button class="info-button" id="infoWeight" type="button">ℹ️</button></label>
             <input type="number" id="weight" value="105">
-            <label for="pal">Pal (1.3)</label>
+            <label for="pal">Pal (1.3) <button class="info-button" id="infoPal" type="button">ℹ️</button></label>
             <input type="number" id="pal" value="1.3">
-            <label for="deficit">Kalorien Defizit (500)</label>
+            <label for="deficit">Kalorien Defizit (500) <button class="info-button" id="infoDeficit" type="button">ℹ️</button></label>
             <input type="number" id="deficit" value="500">
-            <label for="restTurnover">Ruhe Umsatz (2116)</label>
+            <label for="restTurnover">Ruhe Umsatz (2116) <button class="info-button" id="infoRestTurnover" type="button">ℹ️</button></label>
             <input type="number" id="restTurnover" value="2116">
             <input type="button" value="Calculate" onclick="calculate()">
         </div>
@@ -41,6 +41,13 @@
             <input type="number" id="carbsCaloriePerKg" value="4.3">
         </div>
     </div>
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 id="infoModalTitle">Title</h2>
+            <p id="infoModalDescription">Description</p>
+        </div>
+    </div>
     <div id="settingsModalOverlay" class="modal-overlay"></div>
     <script>
     var modalOverlay = document.getElementById('settingsModalOverlay');
@@ -61,6 +68,39 @@
 
     document.getElementById('fatUsePerKg').addEventListener('input', function() {
         document.getElementById('fatUsePerKgValue').textContent = this.value;
+    });
+
+    document.getElementById('infoWeight').addEventListener('click', function() {
+        document.getElementById('infoModalTitle').textContent = 'Gewicht';
+        document.getElementById('infoModalDescription').textContent = 'This is a description of the field Gewicht.';
+        document.getElementById('infoModal').style.display = 'flex';
+        modalOverlay.style.display = "block";
+    });
+
+    document.getElementById('infoPal').addEventListener('click', function() {
+        document.getElementById('infoModalTitle').textContent = 'Pal Wert';
+        document.getElementById('infoModalDescription').textContent = 'This is a description of the field Pal.';
+        document.getElementById('infoModal').style.display = 'flex';
+        modalOverlay.style.display = "block";
+    });
+
+    document.getElementById('infoDeficit').addEventListener('click', function() {
+        document.getElementById('infoModalTitle').textContent = 'Kalorien Defizit';
+        document.getElementById('infoModalDescription').textContent = 'This is a description of the field Kalorien Defizit.';
+        document.getElementById('infoModal').style.display = 'flex';
+        modalOverlay.style.display = "block";
+    });
+
+    document.getElementById('infoRestTurnover').addEventListener('click', function() {
+        document.getElementById('infoModalTitle').textContent = 'Ruhe Umsatz';
+        document.getElementById('infoModalDescription').textContent = 'This is a description of the field Ruheumsatz.';
+        document.getElementById('infoModal').style.display = 'flex';
+        modalOverlay.style.display = "block";
+    });
+
+    document.getElementsByClassName('close-button')[1].addEventListener('click', function() {
+        document.getElementById('infoModal').style.display = 'none';
+        modalOverlay.style.display = "none";
     });
 
     function calculate() {
