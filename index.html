@@ -1,65 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Macro Nutrition Calculator</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body>
-    <div class="container">
+<body>    
+     <div class="container">
         <div class="form">
+            <button id="settings" class="settings-button">⚙️</button>
             <label for="weight">Gewicht</label>
             <input type="number" id="weight" value="105">
             <label for="pal">Pal (1.3)</label>
             <input type="number" id="pal" value="1.3">
-            <label for="deficit">Kalorie Defizit (500)</label>
+            <label for="deficit">Kalorien Defizit (500)</label>
             <input type="number" id="deficit" value="500">
-            <label for="restTurnover">Ruheumsatz</label>
+            <label for="restTurnover">Ruhe Umsatz (2116)</label>
             <input type="number" id="restTurnover" value="2116">
             <input type="button" value="Calculate" onclick="calculate()">
         </div>
-        <div class="output">
-            <div id="calorieTotalOutput"></div>
-            <div id="proteinCalOutput"></div>
-            <div id="proteinGramOutput"></div>
-            <div id="fatCalOutput"></div>
-            <div id="fatGramOutput"></div>
-            <div id="carbsCalOutput"></div>
-            <div id="carbsGramOutput"></div>
+        <div class="output" id="outputDiv"></div>
+    </div>
+    <div id="settingsModal" class="modal"> <!-- Moved outside the .form div -->
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Advanced Settings</h2>
+            <label for="proteinUsePerKg">Protein Verbrauch per Kg</label>
+            <div class="slider-container">                
+                <input type="range" id="proteinUsePerKg" min="1.5" max="2.0" step="0.1" value="1.5">
+                <span id="proteinUsePerKgValue">1.5</span>
+            </div>
+            <label for="fatUsePerKg">Fett Verbrauch per Kg</label>
+            <div class="slider-container">                
+                <input type="range" id="fatUsePerKg" min="0.8" max="1.2" step="0.1" value="0.8">
+                <span id="fatUsePerKgValue">0.8</span>
+            </div>
+            <label for="proteinCaloriePerKg">Protein Kalorien per Kg (4.3)</label>
+            <input type="number" id="proteinCaloriePerKg" value="4.3">
+            <label for="fatCaloriePerKg">Fett Kalorien per Kg (9.1)</label>
+            <input type="number" id="fatCaloriePerKg" value="9.1">
+            <label for="carbsCaloriePerKg">Carbs Kalorien per Kg (4.3)</label>
+            <input type="number" id="carbsCaloriePerKg" value="4.3">
         </div>
     </div>
+    <div id="settingsModalOverlay" class="modal-overlay"></div>
     <script>
-        function calculate() {
-            var weight = parseFloat(document.getElementById('weight').value);
-            var pal = parseFloat(document.getElementById('pal').value);
-            var deficit = parseFloat(document.getElementById('deficit').value);
-            var restTurnover = parseFloat(document.getElementById('restTurnover').value);
+    var modalOverlay = document.getElementById('settingsModalOverlay');
 
-            var calorieTotal = (restTurnover * pal - deficit).toFixed(2);
-            var protein = (weight * 1.5 * 4.3).toFixed(2);
-            var fat = (weight * 0.8 * 9.1).toFixed(2);
-            var carbs = (calorieTotal - protein - fat).toFixed(2);
+    document.getElementById('settings').addEventListener('click', function() {
+        document.getElementById('settingsModal').style.display = "flex"; // changed from "block" to "flex"
+        modalOverlay.style.display = "block";
+    });
 
-            var proteinGrams = (protein / 4.3).toFixed(2);
-            var fatGrams = (fat / 9.1).toFixed(2);
-            var carbsGrams = (carbs / 4.3).toFixed(2);
+    document.getElementsByClassName('close-button')[0].addEventListener('click', function() {
+        document.getElementById('settingsModal').style.display = "none";
+        modalOverlay.style.display = "none";
+    });
 
-            document.getElementById('calorieTotalOutput').innerHTML = 
-                'Dein Kalorien-Umsatz ist: <strong>' + calorieTotal + '</strong> (Ruheumsatz * Pal - Defizit)';
-            document.getElementById('proteinCalOutput').innerHTML = 
-                'Deine Eiweisse in Kalorien: <strong>' + protein + '</strong> = Gewicht x 1.5 (Verbrauch per kg) x 4.3 (Kalorien per kg)';
-            document.getElementById('proteinGramOutput').innerHTML = 
-                'Deine Eiweisse in Gram: <strong>' + proteinGrams + '</strong> = Gewicht x 1.5 (Verbrauch per kg)';
-            document.getElementById('fatCalOutput').innerHTML = 
-                'Deine Fette in Kalorien: <strong>' + fat + '</strong> = Gewicht x 0.8 (Verbrauch per kg) x 9.1 (Kalorien per kg)';
-            document.getElementById('fatGramOutput').innerHTML = 
-                'Deine Fette in Gram: <strong>' + fatGrams + '</strong> = Gewicht x 0.8 (Verbrauch per kg)';
-            document.getElementById('carbsCalOutput').innerHTML = 
-                'Deine Carbs in Kalorien: <strong>' + carbs +  '</strong> = (Gewicht - Proteine - Fette) x 4.3 (Kalorien per kg)';
-            document.getElementById('carbsGramOutput').innerHTML = 
-                'Deine Carbs in Gram: <strong>' + carbsGrams + '</strong> = Carb Kalorien / 4.3 (Kalorien per kg)';
+    document.getElementById('proteinUsePerKg').addEventListener('input', function() {
+        document.getElementById('proteinUsePerKgValue').textContent = this.value;
+    });
+
+    document.getElementById('fatUsePerKg').addEventListener('input', function() {
+        document.getElementById('fatUsePerKgValue').textContent = this.value;
+    });
+
+    function calculate() {
+        var weight = parseFloat(document.getElementById('weight').value);
+        var pal = parseFloat(document.getElementById('pal').value);
+        var deficit = parseFloat(document.getElementById('deficit').value);
+        var restTurnover = parseFloat(document.getElementById('restTurnover').value);
+        var proteinUsePerKg = parseFloat(document.getElementById('proteinUsePerKg').value);
+        var fatUsePerKg = parseFloat(document.getElementById('fatUsePerKg').value);
+        var proteinCaloriePerKg = parseFloat(document.getElementById('proteinCaloriePerKg').value);
+        var fatCaloriePerKg = parseFloat(document.getElementById('fatCaloriePerKg').value);
+        var carbsCaloriePerKg = parseFloat(document.getElementById('carbsCaloriePerKg').value);
+
+        var calorieTotal = parseFloat((restTurnover * pal - deficit).toFixed(2));
+        var protein = parseFloat((weight * proteinUsePerKg * proteinCaloriePerKg).toFixed(2));
+        var fat = parseFloat((weight * fatUsePerKg * fatCaloriePerKg).toFixed(2));
+        var carbs = parseFloat((calorieTotal - protein - fat).toFixed(2));
+        
+        var proteinGrams = parseFloat((protein / proteinCaloriePerKg).toFixed(2));
+        var fatGrams = parseFloat((fat / fatCaloriePerKg).toFixed(2));
+        var carbsGrams = parseFloat((carbs / carbsCaloriePerKg).toFixed(2));
+        
+        document.getElementById('outputDiv').innerHTML = 
+            'Dein Kalorien-Umsatz ist: <strong>' + calorieTotal + '</strong> (Ruheumsatz * Pal - Defizit)<br>' +
+            'Deine Eiweisse in Kalorien: <strong>' + protein + '</strong> -> Gewicht x 1.5 (input per kg) x 4.3 (Kalorien per kg)<br>' +
+            'Deine Eiweisse in Gram: <strong>' + proteinGrams + '</strong> -> Gewicht x 1.5 (input per kg)<br>' +
+            'Deine Fette in Kalorien: <strong>' + fat + '</strong> -> Gewicht x 0.8 (input per kg) x 9.1 (Kalorien per kg)<br>' +
+            'Deine Fette in Gram: <strong>' + fatGrams + '</strong> -> Gewicht x 0.8 (input per kg)<br>' +
+            'Deine Carbs in Kalorien: <strong>' + carbs + '</strong>  -> (Gewicht - Proteine - Fette) x 4.3 (Kalorien per kg)<br>' +
+            'Deine Carbs in Gram: <strong>' + carbsGrams + '</strong> -> Carb Kalorien / 4.3 (Kalorien per kg)';
     }
-    </script>
+    </script>    
 </body>
 </html>
+
