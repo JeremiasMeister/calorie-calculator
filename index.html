@@ -23,21 +23,21 @@
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2>Advanced Settings</h2>
-            <label for="proteinUsePerKg">Protein Verbrauch per Kg</label>
+            <label for="proteinUsePerKg">Protein Verbrauch per Kg <button class="info-button" id="infoProteinPerKg" type="button">ℹ️</button></label>
             <div class="slider-container">                
-                <input type="range" id="proteinUsePerKg" min="1.5" max="2.0" step="0.1" value="1.5">
+                <input type="range" id="proteinUsePerKg" min="1.5" max="2.0" step="0.01" value="1.5">
                 <span id="proteinUsePerKgValue">1.5</span>
             </div>
-            <label for="fatUsePerKg">Fett Verbrauch per Kg</label>
+            <label for="fatUsePerKg">Fett Verbrauch per Kg <button class="info-button" id="infoFatPerKg" type="button">ℹ️</button></label>
             <div class="slider-container">                
-                <input type="range" id="fatUsePerKg" min="0.8" max="1.2" step="0.1" value="0.8">
+                <input type="range" id="fatUsePerKg" min="0.8" max="1.2" step="0.01" value="0.8">
                 <span id="fatUsePerKgValue">0.8</span>
             </div>
-            <label for="proteinCaloriePerKg">Protein Kalorien per Kg (4.3)</label>
+            <label for="proteinCaloriePerKg">Protein Kalorien per Gramm (4.3) <button class="info-button" id="infoProteinCalPerKg" type="button">ℹ️</button></label>
             <input type="number" id="proteinCaloriePerKg" value="4.3">
-            <label for="fatCaloriePerKg">Fett Kalorien per Kg (9.1)</label>
+            <label for="fatCaloriePerKg">Fett Kalorien per Gramm (9.1) <button class="info-button" id="infoFatCalPerKg" type="button">ℹ️</button></label>
             <input type="number" id="fatCaloriePerKg" value="9.1">
-            <label for="carbsCaloriePerKg">Carbs Kalorien per Kg (4.3)</label>
+            <label for="carbsCaloriePerKg">Kohlenhydrate Kalorien per Gramm (4.3) <button class="info-button" id="infoCarbsCalPerKg" type="button">ℹ️</button></label>
             <input type="number" id="carbsCaloriePerKg" value="4.3">
         </div>
     </div>
@@ -71,29 +71,64 @@
     });
 
     document.getElementById('infoWeight').addEventListener('click', function() {
-        document.getElementById('infoModalTitle').textContent = 'Gewicht';
-        document.getElementById('infoModalDescription').textContent = 'This is a description of the field Gewicht.';
+        document.getElementById('infoModalTitle').innerHTML = 'Gewicht';
+        document.getElementById('infoModalDescription').innerHTML = 'Trage hier dein aktuelles Gewicht ein. Das Gewicht wird dafür verwendet, die Mengen der einzelnen Makro-Nährstoffe für dich zu berechnen.';
         document.getElementById('infoModal').style.display = 'flex';
         modalOverlay.style.display = "block";
     });
 
     document.getElementById('infoPal').addEventListener('click', function() {
-        document.getElementById('infoModalTitle').textContent = 'Pal Wert';
-        document.getElementById('infoModalDescription').textContent = 'This is a description of the field Pal.';
+        document.getElementById('infoModalTitle').innerHTML = 'Pal Wert';
+        document.getElementById('infoModalDescription').innerHTML = 'Trage hier deinen Pal Wert ein. Der Pal Wert gilt als Multiplikator für deinen Ruheumsatz und ist basiert auf deinem Aktivitätslevel:<br><br>Tätigkeit > Beispiel: Pal Wert<br><br>Nur sitzend o. liegend > Bettlägrige Menschen: <strong>1.2</strong><br>Sitzend mit wenig Bewegung > Schreibtisch Arbeit: <strong>1.3 - 1.5</strong><br>Sitzend mit teilweise gehen > Berufskraftfahrer/Student: <strong>1.6 - 1.7</strong><br>Überwiegend stehend/gehend > Handwerker/Kellner/Verkauf: <strong>1.8 - 1.9</strong><br>Körperlich anstrengender Job > Bauarbeiter/Berufssportler: <strong>2.0-2.4</strong>';
         document.getElementById('infoModal').style.display = 'flex';
         modalOverlay.style.display = "block";
     });
 
     document.getElementById('infoDeficit').addEventListener('click', function() {
-        document.getElementById('infoModalTitle').textContent = 'Kalorien Defizit';
-        document.getElementById('infoModalDescription').textContent = 'This is a description of the field Kalorien Defizit.';
+        document.getElementById('infoModalTitle').innerHTML = 'Kalorien Defizit';
+        document.getElementById('infoModalDescription').innerHTML = 'Trage hier dein gewünschtes Kalorien Defizit ein. Das Defizit sollte idealerweise zwischen 200 und 500 Kalorien liegen. Ist das Defizit höher, kann das Auswirkungen auf den Stoffwechsel haben.';
         document.getElementById('infoModal').style.display = 'flex';
         modalOverlay.style.display = "block";
     });
 
     document.getElementById('infoRestTurnover').addEventListener('click', function() {
-        document.getElementById('infoModalTitle').textContent = 'Ruhe Umsatz';
-        document.getElementById('infoModalDescription').textContent = 'This is a description of the field Ruheumsatz.';
+        document.getElementById('infoModalTitle').innerHTML = 'Ruhe Umsatz';
+        document.getElementById('infoModalDescription').innerHTML = 'Trage hier deinen Ruheumsatz ein. Dein Ruheumsatz ist die Menge an Kalorien, die dein Körper verbrennt, wenn du einfach nur atmest und dastehst. Der durchschnittliche Ruheumsatz liegt bei 2242 cal am Tag.';
+        document.getElementById('infoModal').style.display = 'flex';
+        modalOverlay.style.display = "block";
+    });
+
+    document.getElementById('infoProteinPerKg').addEventListener('click', function() {
+        document.getElementById('infoModalTitle').innerHTML = 'Protein Verbrauch per Kg';
+        document.getElementById('infoModalDescription').innerHTML = 'Dies ist die empfohlene Menge an Protein in Gramm für jedes Kilogramm deines Körpergewichts. Dein täglicher Verbrauch pro Kilogramm Körpergewicht sollte zwischen 1.5 und 2 Gramm am Tag liegen.';
+        document.getElementById('infoModal').style.display = 'flex';
+        modalOverlay.style.display = "block";
+    });
+
+    document.getElementById('infoFatPerKg').addEventListener('click', function() {
+        document.getElementById('infoModalTitle').innerHTML = 'Fett Verbrauch per Kg';
+        document.getElementById('infoModalDescription').innerHTML = 'Dies ist die empfohlene Menge an Fett in Gramm für jedes Kilogramm deines Körpergewichts. Dein täglicher Verbrauch pro Kilogramm Körpergewicht sollte zwischen 0.8 und 1.2 Gramm am Tag liegen.';
+        document.getElementById('infoModal').style.display = 'flex';
+        modalOverlay.style.display = "block";
+    });
+
+    document.getElementById('infoProteinCalPerKg').addEventListener('click', function() {
+        document.getElementById('infoModalTitle').innerHTML = 'Protein Kalorien per Gram';
+        document.getElementById('infoModalDescription').innerHTML = 'Dies ist die Menge an Kalorien, welche ein Gramm Protein hat (4.3). Dieser Wert ist statisch und sollte nicht geändert werden!';
+        document.getElementById('infoModal').style.display = 'flex';
+        modalOverlay.style.display = "block";
+    });
+
+    document.getElementById('infoFatCalPerKg').addEventListener('click', function() {
+        document.getElementById('infoModalTitle').innerHTML = 'Fett Kalorien per Gram';
+        document.getElementById('infoModalDescription').innerHTML = 'Dies ist die Menge an Kalorien, welche ein Gramm Fett hat (9.1). Dieser Wert ist statisch und sollte nicht geändert werden!';
+        document.getElementById('infoModal').style.display = 'flex';
+        modalOverlay.style.display = "block";
+    });
+
+    document.getElementById('infoCarbsCalPerKg').addEventListener('click', function() {
+        document.getElementById('infoModalTitle').innerHTML = 'Kohlenhydrate Kalorien per Gram';
+        document.getElementById('infoModalDescription').innerHTML = 'Dies ist die Menge an Kalorien, welche ein Gramm Kohlenhydrate hat (4.3). Dieser Wert ist statisch und sollte nicht geändert werden!';
         document.getElementById('infoModal').style.display = 'flex';
         modalOverlay.style.display = "block";
     });
