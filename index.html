@@ -8,13 +8,20 @@
         <div class="form">
             <button id="settings" class="settings-button">⚙️</button>
             <label for="weight">Gewicht <button class="info-button" id="infoWeight" type="button">ℹ️</button></label>
-            <input type="number" id="weight" value="105">
-            <label for="pal">Pal (1.3) <button class="info-button" id="infoPal" type="button">ℹ️</button></label>
+            <input type="number" id="weight" value="105">            
+            <label for="pal">Pal Wert <button class="info-button" id="infoPal" type="button">ℹ️</button></label>
             <input type="number" id="pal" value="1.3">
-            <label for="deficit">Kalorien Defizit (500) <button class="info-button" id="infoDeficit" type="button">ℹ️</button></label>
+            <label for="deficit">Kalorien Defizit <button class="info-button" id="infoDeficit" type="button">ℹ️</button></label>
             <input type="number" id="deficit" value="500">
-            <label for="restTurnover">Ruhe Umsatz (2116) <button class="info-button" id="infoRestTurnover" type="button">ℹ️</button></label>
+            <label for="restTurnover">Ruhe Umsatz <button class="info-button" id="infoRestTurnover" type="button">ℹ️</button></label>
             <input type="number" id="restTurnover" value="2116">
+            <label for="gender">Biologisches Geschlecht <button class="info-button" id="infoGender" type="button">ℹ️</button></label>
+            <div class="radio-container">
+                <input type="radio" id="male" name="gender" value="male" checked>
+                <label for="male">Maskulin</label>
+                <input type="radio" id="female" name="gender" value="female">
+                <label for="female">Feminin</label>
+            </div>
             <input type="button" value="Calculate" onclick="calculate()">
         </div>
         <div class="output" id="outputDiv"></div>
@@ -22,22 +29,23 @@
     <div id="settingsModal" class="modal"> <!-- Moved outside the .form div -->
         <div class="modal-content">
             <span class="close-button">&times;</span>
-            <h2>Advanced Settings</h2>
-            <label for="proteinUsePerKg">Protein Verbrauch per Kg <button class="info-button" id="infoProteinPerKg" type="button">ℹ️</button></label>
+            <h2>Erweiterte Einstellungen</h2>
+            <label for="proteinUsePerKg">Protein Verbrauch per Kg Körpergewicht <button class="info-button" id="infoProteinPerKg" type="button">ℹ️</button></label>
             <div class="slider-container">                
                 <input type="range" id="proteinUsePerKg" min="1.5" max="2.0" step="0.01" value="1.5">
                 <span id="proteinUsePerKgValue">1.5</span>
             </div>
-            <label for="fatUsePerKg">Fett Verbrauch per Kg <button class="info-button" id="infoFatPerKg" type="button">ℹ️</button></label>
+            <label for="fatUsePerKg">Fett Verbrauch per Kg Körpergewicht<button class="info-button" id="infoFatPerKg" type="button">ℹ️</button></label>
             <div class="slider-container">                
                 <input type="range" id="fatUsePerKg" min="0.8" max="1.2" step="0.01" value="0.8">
                 <span id="fatUsePerKgValue">0.8</span>
             </div>
-            <label for="proteinCaloriePerKg">Protein Kalorien per Gramm (4.3) <button class="info-button" id="infoProteinCalPerKg" type="button">ℹ️</button></label>
+            <label for="carbsUsePerKg">Der Kohlenhydrat Verbrauch setzt sich zusammen aus dem absoluten Verbrauch abzüglich des Protein- und Fettverbrauchs</label>
+            <label for="proteinCaloriePerKg">Kalorien per Gramm Protein (4.3) <button class="info-button" id="infoProteinCalPerKg" type="button">ℹ️</button></label>
             <input type="number" id="proteinCaloriePerKg" value="4.3">
-            <label for="fatCaloriePerKg">Fett Kalorien per Gramm (9.1) <button class="info-button" id="infoFatCalPerKg" type="button">ℹ️</button></label>
+            <label for="fatCaloriePerKg">Kalorien per Gramm Fett (9.1) <button class="info-button" id="infoFatCalPerKg" type="button">ℹ️</button></label>
             <input type="number" id="fatCaloriePerKg" value="9.1">
-            <label for="carbsCaloriePerKg">Kohlenhydrate Kalorien per Gramm (4.3) <button class="info-button" id="infoCarbsCalPerKg" type="button">ℹ️</button></label>
+            <label for="carbsCaloriePerKg">Kalorien per Gramm Kohlenhydrate (4.3) <button class="info-button" id="infoCarbsCalPerKg" type="button">ℹ️</button></label>
             <input type="number" id="carbsCaloriePerKg" value="4.3">
         </div>
     </div>
@@ -72,14 +80,14 @@
 
     document.getElementById('infoWeight').addEventListener('click', function() {
         document.getElementById('infoModalTitle').innerHTML = 'Gewicht';
-        document.getElementById('infoModalDescription').innerHTML = 'Trage hier dein aktuelles Gewicht ein. Das Gewicht wird dafür verwendet, die Mengen der einzelnen Makro-Nährstoffe für dich zu berechnen.';
+        document.getElementById('infoModalDescription').innerHTML = 'Trage hier dein aktuelles Gewicht ein. Das Gewicht wird dafür verwendet, die benötigten Mengen der einzelnen Makro-Nährstoffe für dich zu berechnen.';
         document.getElementById('infoModal').style.display = 'flex';
         modalOverlay.style.display = "block";
     });
 
     document.getElementById('infoPal').addEventListener('click', function() {
         document.getElementById('infoModalTitle').innerHTML = 'Pal Wert';
-        document.getElementById('infoModalDescription').innerHTML = 'Trage hier deinen Pal Wert ein. Der Pal Wert gilt als Multiplikator für deinen Ruheumsatz und ist basiert auf deinem Aktivitätslevel:<br><br>Tätigkeit > Beispiel: Pal Wert<br><br>Nur sitzend o. liegend > Bettlägrige Menschen: <strong>1.2</strong><br>Sitzend mit wenig Bewegung > Schreibtisch Arbeit: <strong>1.3 - 1.5</strong><br>Sitzend mit teilweise gehen > Berufskraftfahrer/Student: <strong>1.6 - 1.7</strong><br>Überwiegend stehend/gehend > Handwerker/Kellner/Verkauf: <strong>1.8 - 1.9</strong><br>Körperlich anstrengender Job > Bauarbeiter/Berufssportler: <strong>2.0-2.4</strong>';
+        document.getElementById('infoModalDescription').innerHTML = 'Trage hier deinen Pal Wert ein. Der Pal Wert gilt als Multiplikator für deinen Ruheumsatz und basiert auf deinem Aktivitätslevel:<br><br>Tätigkeit > Beispiel: Pal Wert<br><br>Nur sitzend/liegend > Bettlägrige Menschen: <strong>1.2</strong><br>Sitzend mit wenig Bewegung > Schreibtisch Arbeit: <strong>1.3 - 1.5</strong><br>Sitzend mit etwas gehen > Berufskraftfahrer/Student: <strong>1.6 - 1.7</strong><br>Überwiegend stehend/gehend > Handwerker/Kellner/Verkauf: <strong>1.8 - 1.9</strong><br>Körperlich anstrengender Job > Bauarbeiter/Berufssportler: <strong>2.0-2.4</strong>';
         document.getElementById('infoModal').style.display = 'flex';
         modalOverlay.style.display = "block";
     });
@@ -133,6 +141,13 @@
         modalOverlay.style.display = "block";
     });
 
+    document.getElementById('infoGender').addEventListener('click', function() {
+        document.getElementById('infoModalTitle').innerHTML = 'Biologisches Geschlecht';
+        document.getElementById('infoModalDescription').innerHTML = 'Das Biologische Geschlecht wird als Multiplikator für den Kalorienverbrauch verwenden! Biologisch weibliche Personen verbrauchen durchschnittlich 10% weniger Kalorien als männliche.';
+        document.getElementById('infoModal').style.display = 'flex';
+        modalOverlay.style.display = "block";
+    });
+
     document.getElementsByClassName('close-button')[1].addEventListener('click', function() {
         document.getElementById('infoModal').style.display = 'none';
         modalOverlay.style.display = "none";
@@ -148,8 +163,11 @@
         var proteinCaloriePerKg = parseFloat(document.getElementById('proteinCaloriePerKg').value);
         var fatCaloriePerKg = parseFloat(document.getElementById('fatCaloriePerKg').value);
         var carbsCaloriePerKg = parseFloat(document.getElementById('carbsCaloriePerKg').value);
+        var selectedGender = document.querySelector('input[name="gender"]:checked').value;
 
-        var calorieTotal = parseFloat((restTurnover * pal - deficit).toFixed(2));
+        var genderMultiplicator = (selectedGender === 'male') ? 1 : 0.9;
+
+        var calorieTotal = parseFloat((restTurnover * pal * genderMultiplicator - deficit).toFixed(2));
         var protein = parseFloat((weight * proteinUsePerKg * proteinCaloriePerKg).toFixed(2));
         var fat = parseFloat((weight * fatUsePerKg * fatCaloriePerKg).toFixed(2));
         var carbs = parseFloat((calorieTotal - protein - fat).toFixed(2));
@@ -160,12 +178,12 @@
         
         document.getElementById('outputDiv').innerHTML = 
             'Dein Kalorien-Umsatz ist: <strong>' + calorieTotal + '</strong> (Ruheumsatz * Pal - Defizit)<br>' +
-            'Deine Eiweisse in Kalorien: <strong>' + protein + '</strong> -> Gewicht x 1.5 (input per kg) x 4.3 (Kalorien per kg)<br>' +
-            'Deine Eiweisse in Gram: <strong>' + proteinGrams + '</strong> -> Gewicht x 1.5 (input per kg)<br>' +
-            'Deine Fette in Kalorien: <strong>' + fat + '</strong> -> Gewicht x 0.8 (input per kg) x 9.1 (Kalorien per kg)<br>' +
-            'Deine Fette in Gram: <strong>' + fatGrams + '</strong> -> Gewicht x 0.8 (input per kg)<br>' +
-            'Deine Carbs in Kalorien: <strong>' + carbs + '</strong>  -> (Gewicht - Proteine - Fette) x 4.3 (Kalorien per kg)<br>' +
-            'Deine Carbs in Gram: <strong>' + carbsGrams + '</strong> -> Carb Kalorien / 4.3 (Kalorien per kg)';
+            'Deine Eiweiße in Kalorien: <strong>' + protein + '</strong> -> Gewicht x '+ proteinUsePerKg + ' (Verbrauch per Kg) x ' + proteinCaloriePerKg + ' (Kalorien per kg)<br>' +
+            'Deine Eiweiße in Gram: <strong>' + proteinGrams + '</strong> -> Gewicht x ' + proteinUsePerKg + ' (Verbrauch per Kg)<br>' +
+            'Deine Fette in Kalorien: <strong>' + fat + '</strong> -> Gewicht x ' + fatUsePerKg + ' (Verbrauch per Kg) x ' + fatCaloriePerKg +' (Kalorien per Gramm)<br>' +
+            'Deine Fette in Gram: <strong>' + fatGrams + '</strong> -> Gewicht x ' + fatUsePerKg + ' (Verbrauch per Kg)<br>' +
+            'Deine Kohlenhydrate in Kalorien: <strong>' + carbs + '</strong>  -> (Gewicht - Proteine - Fette) x ' + carbsCaloriePerKg +' (Kalorien per Gramm)<br>' +
+            'Deine Kohlenhydrate in Gram: <strong>' + carbsGrams + '</strong> -> Kohlenhydrate Kalorien / ' + carbsCaloriePerKg + ' (Kalorien per Gramm)';
     }
     </script>    
 </body>
